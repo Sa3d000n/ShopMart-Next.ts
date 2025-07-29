@@ -1,10 +1,6 @@
-import styles from "./BrowseCategorySection.module.css";
+
 import CategoryItem from "../CategoryItem/CategoryItem";
-interface Category {
-  id: number;
-  image: string;
-  nameEn: string;
-}
+import { Category } from "@/store/types";
 
 async function getCategories(): Promise<Category[]> {
   const res = await fetch(
