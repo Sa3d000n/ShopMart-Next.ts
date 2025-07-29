@@ -14,7 +14,7 @@
 
 ## 🧪 Live Demo
 
-👉 [https://shop-mart-next.vercel.app](https://shop-mart-next.vercel.app)
+👉 [https://shop-mart-next.vercel.app](https://shop-mart-next-8vo9sobdk-sa3d000ns-projects.vercel.app/)
 
 ## 🛠️ Tech Stack
 
