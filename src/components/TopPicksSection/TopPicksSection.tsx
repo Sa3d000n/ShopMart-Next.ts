@@ -4,18 +4,8 @@ import ProductCard from "../ProductCard/ProductCard";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import CardSkeleton from "../CardSkeleton/CardSkeleton";
-export interface Product {
-  id: number;
-  image: string;
-  nameEn: string;
-  name: string;
-  price: number;
-  originalPrice: number;
-  inStock: boolean;
-  rating: number;
-  reviewCount: number;
-  description: string;
-}
+import { Product } from "@/store/types";
+
 function TopPicksSection() {
   const [items, setItems] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
