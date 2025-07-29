@@ -7,7 +7,6 @@ import {
   isItemInFavorite,
   removeItemFromFavorite,
 } from "../../store/favoriteSlice";
-import StarsRating from "../../utils/StarsRating";
 import {
   addItemToCart,
   decreaseItemQuantity,
@@ -16,7 +15,9 @@ import {
 } from "../../store/cartSlice";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Product } from "../TopPicksSection/TopPicksSection";
+
+import { CiStar } from "react-icons/ci";
+import { Product } from "@/store/types";
 function ProductCard({ item }: { item: Product }) {
   const {
     id,
@@ -36,6 +37,18 @@ function ProductCard({ item }: { item: Product }) {
 
   const discount = ((1 - price / originalPrice) * 100).toFixed(0);
 
+  const renderStars = (rating: number) => {
+    return [...Array(5)].map((_, i) => (
+      <CiStar
+        key={i}
+        className={`w-5 h-5  ${
+          i < Math.floor(rating)
+            ? "fill-yellow-400 text-yellow-400"
+            : "text-gray-300"
+        }`}
+      />
+    ));
+  };
   return (
     <div className="group relative block overflow-hidden hover:shadow-2xl transition-all duration-300">
       {inStock &&
@@ -84,13 +97,10 @@ function ProductCard({ item }: { item: Product }) {
         )}
         <h3 className="mt-1.5 text-lg font-medium text-gray-900">{name}</h3>
         <p className="mt-1.5 line-clamp-3 text-gray-700">{description}</p>
-        <StarsRating
-          size={24}
-          maxRating={5}
-          numberOfVotes={reviewCount}
-          defaultRating={rating}
-          className="my-3.5"
-        />
+        <div className="flex items-center gap-0.5">
+          {renderStars(item?.rating)}{" "}
+          <span className="text-xs text-stone-600">({reviewCount})</span>
+        </div>
 
         <div className="mt-4 flex gap-4">
           {inStock ? (
@@ -116,11 +126,7 @@ function ProductCard({ item }: { item: Product }) {
               ) : (
                 <button
                   type="button"
-                  onClick={() =>
-                    dispatch(
-                      addItemToCart({ ...item, quantity: 1, totalPrice: price })
-                    )
-                  }
+                  onClick={() => dispatch(addItemToCart(item))}
                   className="block w-full rounded-sm bg-gray-100 px-4 py-3 text-sm font-medium text-gray-900 transition hover:scale-105"
                 >
                   Add to Cart

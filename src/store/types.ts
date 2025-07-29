@@ -17,7 +17,7 @@ export interface Product {
   description: string;
   category: Category;
   quantity?: number;
-  totalPrice?: number;
+  totalPrice: number;
   stockQuantity: number;
   images: string[];
   brand: string;
