@@ -48,7 +48,7 @@ function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
         className={`w-5 h-5 ${
           i < Math.floor(rating)
             ? "fill-yellow-400 text-yellow-400"
-            : "text-gray-300"
+            : "text-gray-300 dark:text-gray-600"
         }`}
       />
     ));
@@ -74,11 +74,12 @@ function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   if (isLoading || product == undefined) {
     return <DefaultSkeleton />;
   }
+
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 dark:bg-gray-900 dark:text-gray-100">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
         <div className="space-y-4">
-          <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+          <div className="aspect-square bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
             <Image
               src={product?.images?.at(selectedImage) || ""}
               alt={product?.nameEn}
@@ -96,8 +97,8 @@ function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
                 onClick={() => setSelectedImage(index)}
                 className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${
                   selectedImage === index
-                    ? "border-blue-500"
-                    : "border-gray-200"
+                    ? "border-blue-500 dark:border-blue-400"
+                    : "border-gray-200 dark:border-gray-700"
                 }`}
               >
                 <Image
@@ -114,39 +115,39 @@ function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
 
         <div className="space-y-6">
           <div>
-            <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
               <span>{product?.category?.nameEn}</span>
               <span>•</span>
               <span>{product?.brand}</span>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
               {product?.nameEn}
             </h1>
-            <p className="text-lg text-gray-600">{product?.name}</p>
+            <p className="text-lg text-gray-600 dark:text-gray-300">{product?.name}</p>
           </div>
 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
               {renderStars(product?.rating)}
-              <span className="ml-2 text-sm font-medium">
+              <span className="ml-2 text-sm font-medium dark:text-gray-100">
                 {product?.rating}
               </span>
             </div>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-500 dark:text-gray-400">
               ({product?.reviewCount} reviews)
             </span>
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="text-3xl font-bold text-gray-900">
+            <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">
               ${product?.price}
             </span>
             {product?.originalPrice > product?.price && (
               <>
-                <span className="text-xl text-gray-500 line-through">
+                <span className="text-xl text-gray-500 dark:text-gray-400 line-through">
                   ${product?.originalPrice}
                 </span>
-                <span className="bg-red-100 text-red-800 text-sm font-medium px-2.5 py-0.5 rounded">
+                <span className="bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 text-sm font-medium px-2.5 py-0.5 rounded">
                   {discountPercentage}% OFF
                 </span>
               </>
@@ -161,7 +162,9 @@ function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
             ></div>
             <span
               className={`text-sm font-medium ${
-                product?.inStock ? "text-green-600" : "text-red-600"
+                product?.inStock 
+                  ? "text-green-600 dark:text-green-400" 
+                  : "text-red-600 dark:text-red-400"
               }`}
             >
               {product?.inStock
@@ -175,14 +178,14 @@ function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
               <div className="flex gap-3 items-center">
                 <button
                   onClick={() => dispatch(increaseItemQuantity(product.id))}
-                  className="px-2.5 py-1 sm:px-3.5 sm:py-2 text-sm flex justify-center items-center  font-bold bg-gray-100  shadow-2xl rounded-full cursor-pointer"
+                  className="px-2.5 py-1 sm:px-3.5 sm:py-2 text-sm flex justify-center items-center font-bold bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-2xl rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600"
                 >
                   +
                 </button>
-                {itemQuantity}
+                <span className="dark:text-gray-100">{itemQuantity}</span>
                 <button
                   onClick={() => dispatch(decreaseItemQuantity(product.id))}
-                  className="px-2.5 py-1 sm:px-3.5 sm:py-2 text-sm flex justify-center items-center  font-bold bg-gray-100  shadow-2xl rounded-full cursor-pointer"
+                  className="px-2.5 py-1 sm:px-3.5 sm:py-2 text-sm flex justify-center items-center font-bold bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-2xl rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600"
                 >
                   -
                 </button>
@@ -192,7 +195,7 @@ function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
                 onClick={() =>
                   dispatch(addItemToCart({ ...product, quantity: 1 }))
                 }
-                className="block w-full rounded-sm bg-gray-100 px-4 py-3 text-sm font-medium text-gray-900 transition hover:scale-105"
+                className="block w-full rounded-sm bg-gray-100 dark:bg-gray-700 px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100 transition hover:scale-105 hover:bg-gray-200 dark:hover:bg-gray-600"
               >
                 Add to Cart
               </button>
@@ -207,7 +210,7 @@ function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
                 className={`p-3 rounded-lg border-2 ${
                   isInFavorite
                     ? "border-red-500 text-red-500"
-                    : "border-gray-300 text-gray-400"
+                    : "border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500"
                 } hover:border-red-500 hover:text-red-500`}
               >
                 {isInFavorite ? (
@@ -221,16 +224,16 @@ function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
             )}
           </div>
 
-          <div className="grid grid-cols-3 gap-4 pt-6 border-t border-gray-200">
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className="grid grid-cols-3 gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
               <FaTruck className="w-5 h-5" />
               <span>Free Shipping</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
               <FaTruck className="w-5 h-5" />
               <span>30-Day Returns</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
               <IoShield className="w-5 h-5" />
               <span>2 Year Warranty</span>
             </div>
@@ -238,16 +241,16 @@ function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
         </div>
       </div>
 
-      <div className="border-t border-gray-200">
-        <div className="flex border-b border-gray-200">
+      <div className="border-t border-gray-200 dark:border-gray-700">
+        <div className="flex border-b border-gray-200 dark:border-gray-700">
           {["description", "specifications"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`px-6 py-4 text-sm font-medium capitalize ${
                 activeTab === tab
-                  ? "border-b-2 border-blue-500 text-blue-600"
-                  : "text-gray-500 hover:text-gray-700"
+                  ? "border-b-2 border-blue-500 dark:border-blue-400 text-blue-600 dark:text-blue-400"
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
               }`}
             >
               {tab}
@@ -258,7 +261,7 @@ function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
         <div className="py-8">
           {activeTab === "description" && (
             <div className="prose max-w-none">
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 {product.description}
               </p>
             </div>
@@ -269,10 +272,10 @@ function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
               {Object.entries(product.specifications).map(([key, value]) => (
                 <div
                   key={key}
-                  className="flex justify-between py-3 border-b border-gray-100"
+                  className="flex justify-between py-3 border-b border-gray-100 dark:border-gray-800"
                 >
-                  <span className="font-medium text-gray-700">{key}:</span>
-                  <span className="text-gray-600">{value}</span>
+                  <span className="font-medium text-gray-700 dark:text-gray-300">{key}:</span>
+                  <span className="text-gray-600 dark:text-gray-400">{value}</span>
                 </div>
               ))}
             </div>

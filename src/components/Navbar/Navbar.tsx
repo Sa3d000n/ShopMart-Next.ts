@@ -9,6 +9,7 @@ import { getTotalFavoriteQuantity } from "../../store/favoriteSlice";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAppSelector } from "@/store/hooks";
+import DarkModeToggle from "../DarkModeToggle/DarkModeToggle";
 const navLinks = ["home", "products", "cart", "about"];
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,7 +27,10 @@ function Navbar() {
 
           <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((item, i) => {
-              const isActive = pathname === item;
+              const isActive =
+                item === "home" ? pathname === "/" : pathname === "/" + item;
+              console.log(item);
+              console.log(isActive);
               return (
                 <Link
                   key={i}
@@ -43,7 +47,11 @@ function Navbar() {
             })}
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4 scale-75 md:scale-100">
+            <div className="ml-2">
+              <DarkModeToggle />
+            </div>
+
             <Link href="/cart">
               <div className="relative bg-slate-700 rounded-full size-12 flex items-center justify-center">
                 {cartItemsNumber > 0 && (
@@ -77,25 +85,27 @@ function Navbar() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <nav className="md:hidden mt-4 space-y-2 px-2">
-            {navLinks.map((item, i) => {
-              const isActive = pathname === item;
-              return (
-                <Link
-                  key={i}
-                  href={item === "home" ? "/" : `/${item}`}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block py-2 px-3 rounded text-sm ${
-                    isActive
-                      ? "bg-primary-color text-white"
-                      : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                  }`}
-                >
-                  {item}
-                </Link>
-              );
-            })}
-          </nav>
+          <>
+            <nav className="md:hidden mt-4 space-y-2 px-2">
+              {navLinks.map((item, i) => {
+                const isActive = pathname === item;
+                return (
+                  <Link
+                    key={i}
+                    href={item === "home" ? "/" : `/${item}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`block py-2 px-3 rounded text-sm ${
+                      isActive
+                        ? "bg-primary-color text-white"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    }`}
+                  >
+                    {item}
+                  </Link>
+                );
+              })}
+            </nav>
+          </>
         )}
       </div>
     </header>

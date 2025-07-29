@@ -42,7 +42,7 @@ const cartSlice = createSlice({
       if (!item) return;
       if (item.quantity) item.quantity++;
 
-      item.totalPrice = item.quantity || 0 * item.price;
+      item.totalPrice = (item.quantity ? item.quantity : 0) * item.price;
     },
     decreaseItemQuantity: (
       state,

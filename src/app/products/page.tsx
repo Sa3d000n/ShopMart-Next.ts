@@ -4,6 +4,7 @@ import { IoSearch } from "react-icons/io5";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { Category, Product } from "@/store/types";
 import CardSkeleton from "@/components/CardSkeleton/CardSkeleton";
+
 function ProductsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -17,6 +18,7 @@ function ProductsPage() {
     nameEn: "All Categories",
     id: -1,
   });
+
   function handleSearch(e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     setFilteredItems(() => {
@@ -42,6 +44,7 @@ function ProductsPage() {
       }
     });
   }
+
   function handleCategorySelection(
     e: MouseEvent<HTMLButtonElement>,
     category: Category
@@ -54,6 +57,7 @@ function ProductsPage() {
       return items.filter((item) => item.category.name == category.name);
     });
   }
+
   function sortItems(itemsToSort: Product[]) {
     if (activeSort === "default") {
       return itemsToSort;
@@ -73,9 +77,10 @@ function ProductsPage() {
         return sorted;
     }
   }
+
   function filterByPrice(itemsToFilter: Product[]) {
     if (!priceRange.min && !priceRange.max) {
-      return itemsToFilter; // No filter applied
+      return itemsToFilter;
     }
 
     return itemsToFilter.filter((item) => {
@@ -86,6 +91,7 @@ function ProductsPage() {
       return price >= min && price <= max;
     });
   }
+
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -100,6 +106,7 @@ function ProductsPage() {
     setItems(data.data.products);
     setIsLoading(false);
   }
+
   async function getCategories() {
     const res = await fetch(
       "https://task-ecommerce-api.vercel.app/api/categories"
@@ -113,22 +120,23 @@ function ProductsPage() {
     ? sortItems(filteredItems)
     : sortItems(items);
   displayItems = filterByPrice(displayItems);
+
   useEffect(function () {
     getItems();
     getCategories();
   }, []);
 
   return (
-    <div className="container py-16">
-      <h2 className="text-primary-color text-4xl font-bold text-center mb-11">
+    <div className="container py-16 dark:bg-gray-900 dark:text-gray-100">
+      <h2 className="text-primary-color dark:text-blue-400 text-4xl font-bold text-center mb-11">
         Products
       </h2>
       <div className="flex flex-col lg:flex-row items-center gap-3 justify-end">
-        <form className="max-w-lg grow mb-9 ">
+        <form className="max-w-lg grow mb-9">
           <div className="flex relative">
             <label
               htmlFor="search-dropdown"
-              className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+              className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-100"
             >
               Your Email
             </label>
@@ -136,7 +144,7 @@ function ProductsPage() {
             <button
               type="button"
               onClick={toggleDropdown}
-              className="cursor-pointer shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-white bg-primary-color transition-all duration-300 border border-blue-700 rounded-s-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              className="cursor-pointer shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-white bg-primary-color dark:bg-blue-600 transition-all duration-300 border border-blue-700 dark:border-blue-500 rounded-s-lg hover:bg-blue-700 dark:hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
             >
               {activeCategory.nameEn}
               <svg
@@ -157,9 +165,9 @@ function ProductsPage() {
             </button>
 
             {dropdownOpen && (
-              <div className="z-20 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute top-12 left-0 border border-blue-200">
+              <div className="z-20 bg-white dark:bg-gray-800 divide-y divide-gray-100 dark:divide-gray-700 rounded-lg shadow w-44 absolute top-12 left-0 border border-blue-200 dark:border-gray-600">
                 <ul
-                  className="py-2 text-sm text-gray-700"
+                  className="py-2 text-sm text-gray-700 dark:text-gray-100"
                   aria-labelledby="dropdown-button"
                 >
                   {[
@@ -176,7 +184,7 @@ function ProductsPage() {
                               handleCategorySelection(e, item);
                               setActiveCategory(item);
                             }}
-                            className="inline-flex w-full px-4 py-2 hover:bg-blue-100 text-stone-700 hover:text-blue-900"
+                            className="inline-flex w-full px-4 py-2 hover:bg-blue-100 dark:hover:bg-gray-700 text-stone-700 dark:text-gray-100 hover:text-blue-900 dark:hover:text-blue-400"
                           >
                             {item.nameEn}
                           </button>
@@ -194,13 +202,13 @@ function ProductsPage() {
                 onChange={(e) => {
                   handleSearch(e);
                 }}
-                className="block p-2.5 w-full z-10 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-0 border border-blue-300 focus:ring-blue-500 focus:border-blue-500"
+                className="block p-2.5 w-full z-10 text-sm text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-800 rounded-e-lg border-s-0 border border-blue-300 dark:border-gray-600 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400"
                 placeholder="Search Desserts..."
                 required
               />
               <button
                 type="button"
-                className="cursor-pointer absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-primary-color rounded-e-lg border border-blue-700 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                className="cursor-pointer absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-primary-color dark:bg-blue-600 rounded-e-lg border border-blue-700 dark:border-blue-500 hover:bg-blue-700 dark:hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
               >
                 <IoSearch />
                 <span className="sr-only">Search</span>
@@ -209,16 +217,16 @@ function ProductsPage() {
           </div>
         </form>
         <div className="lg:ml-44">
-          <div className="flex justify-between items-center mb-6 max-w-lg  ">
+          <div className="flex justify-between items-center mb-6 max-w-lg">
             <div className="flex items-center gap-4">
-              <label className="text-sm font-medium text-gray-700">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-100">
                 Sort by:
               </label>
               <select
                 title="sort"
                 value={activeSort}
                 onChange={(e) => setActiveSort(e.target.value)}
-                className="px-3 py-2 border  rounded-lg text-sm border-blue-300 focus:ring-blue-500 focus:border-blue-700"
+                className="px-3 py-2 border rounded-lg text-sm border-blue-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-700 dark:focus:border-blue-400"
               >
                 <option value="default">Default</option>
                 <option value="name">Name</option>
@@ -230,7 +238,7 @@ function ProductsPage() {
           </div>
 
           <details className="group relative z-50 mb-12">
-            <summary className="flex items-center gap-2 border-b border-gray-300 pb-1 text-gray-700 transition-colors hover:border-gray-400 hover:text-gray-900 dark:border-gray-600 dark:text-gray-200 dark:hover:border-gray-700 dark:hover:text-white [&::-webkit-details-marker]:hidden">
+            <summary className="flex items-center gap-2 border-b border-gray-300 dark:border-gray-600 pb-1 text-gray-700 dark:text-gray-100 transition-colors hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-gray-200 [&::-webkit-details-marker]:hidden">
               <span className="text-sm font-medium"> Price </span>
 
               <span className="transition-transform group-open:-rotate-180">
@@ -251,16 +259,16 @@ function ProductsPage() {
               </span>
             </summary>
 
-            <div className="z-auto w-64 divide-y divide-gray-300 rounded border border-gray-300 bg-white shadow-sm group-open:absolute group-open:start-0 group-open:top-8 dark:divide-gray-600 dark:border-gray-600 dark:bg-gray-900">
+            <div className="z-auto w-64 divide-y divide-gray-300 dark:divide-gray-600 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 shadow-sm group-open:absolute group-open:start-0 group-open:top-8">
               <div className="flex items-center justify-between px-3 py-2">
-                <span className="text-sm text-gray-700 dark:text-gray-200">
+                <span className="text-sm text-gray-700 dark:text-gray-100">
                   {" "}
                 </span>
 
                 <button
                   type="button"
                   onClick={() => setPriceRange({ min: "", max: "" })}
-                  className="text-sm text-gray-700 underline transition-colors hover:text-gray-900 dark:text-gray-200 dark:hover:text-white"
+                  className="text-sm text-gray-700 dark:text-gray-100 underline transition-colors hover:text-gray-900 dark:hover:text-gray-200"
                 >
                   Reset
                 </button>
@@ -268,7 +276,7 @@ function ProductsPage() {
 
               <div className="flex items-center gap-3 p-3">
                 <label htmlFor="MinPrice">
-                  <span className="text-sm text-gray-700 dark:text-gray-200">
+                  <span className="text-sm text-gray-700 dark:text-gray-100">
                     {" "}
                     Min{" "}
                   </span>
@@ -283,12 +291,12 @@ function ProductsPage() {
                       }))
                     }
                     value={priceRange.min || 0}
-                    className="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white"
+                    className="mt-0.5 w-full rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm sm:text-sm"
                   />
                 </label>
 
                 <label htmlFor="MaxPrice">
-                  <span className="text-sm text-gray-700 dark:text-gray-200">
+                  <span className="text-sm text-gray-700 dark:text-gray-100">
                     {" "}
                     Max{" "}
                   </span>
@@ -303,7 +311,7 @@ function ProductsPage() {
                       }))
                     }
                     value={priceRange.max || 600000}
-                    className="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm dark:border-gray-600 dark:bg-gray-900 dark:text-white"
+                    className="mt-0.5 w-full rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm sm:text-sm"
                   />
                 </label>
               </div>
@@ -311,7 +319,7 @@ function ProductsPage() {
           </details>
         </div>
       </div>
-      <div className=" grid grid-cols-1 lg:grid-cols-4 gap-x-6 gap-y-5 mb-9">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-6 gap-y-5 mb-9">
         {isLoading ? (
           <CardSkeleton />
         ) : (

@@ -3,7 +3,9 @@
 body {
   min-height: 100vh;
   position: relative;
+  @apply dark:bg-gray-900 dark:text-gray-100;
 }
+
 @custom-variant dark (&:where(.dark, .dark *));
 .container {
   width: 100%;
