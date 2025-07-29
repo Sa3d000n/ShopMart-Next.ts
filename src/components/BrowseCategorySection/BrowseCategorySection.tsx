@@ -1,4 +1,3 @@
-
 import CategoryItem from "../CategoryItem/CategoryItem";
 import { Category } from "@/store/types";
 
@@ -7,7 +6,12 @@ async function getCategories(): Promise<Category[]> {
     "https://task-ecommerce-api.vercel.app/api/categories"
   );
   const data = await res.json();
-  return data.data;
+  return data.data.map((item: Category) => ({
+    id: item.id,
+    image: item.image,
+    nameEn: item.nameEn,
+    name: item.name, // Now we know it's there
+  }));
 }
 async function BrowseCategorySection() {
   const categories: Category[] = await getCategories();
