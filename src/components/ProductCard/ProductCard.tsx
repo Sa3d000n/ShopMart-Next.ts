@@ -137,7 +137,7 @@ function ProductCard({ item }: { item: Product }) {
             </>
           ) : (
             <p className="text-red-600">
-              Sorry this Product isn't available right now{" "}
+              Sorry this Product isn&apos;t available right now{" "}
             </p>
           )}
         </div>
