@@ -1,5 +1,4 @@
 import { Category } from "@/store/types";
-import styles from "./CategoryItem.module.css";
 import Image from "next/image";
 
 function CategoryItem({ item }: { item: Category }) {
